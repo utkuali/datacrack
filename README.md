@@ -29,7 +29,7 @@ exports["datacrack"]:Start(4.5)
 - To catch the hack outcome use this in your code:
 
 ```lua
-AddEventHandler("datacrack", function() -- this event will be triggered once the player finished hacking
+AddEventHandler("datacrack", function() -- this event will be triggered when the player finished hacking
     -- your code here, for example:
     ESX.ShowHelpNotification('Hack complete!', false, true, 5000)
 end)
