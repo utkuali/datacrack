@@ -144,7 +144,7 @@ function F_02668(arg1)
 end
 
 
-function DataCrack(arg1)
+function Start(arg1)
     local loc1
     if arg1 == nil then
         loc1 = 25
