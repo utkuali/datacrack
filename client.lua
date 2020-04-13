@@ -2,6 +2,7 @@ local output = {}
 local stophack = false
 local Dat_1 = { [1] = { val1 = 0.4, }, [2] = { val1 = 0.4, }, [3] = { val1 = 0.4, }, [4] = { val1 = 0.4, }, [5] = { val1 = 0.4, }, [6] = { val1 = 0.4, }, [7] = { val1 = 0.4, }, }
 local Dat_2 = { [1] = { val0 = 1, val1 = (0.02 * 0.55), val2 = 0, val3 = 1, val4 = true }, [2] = { val0 = 1, val1 = (0.025 * 0.55), val2 = 0, val3 = 1, val4 = true }, [3] = { val0 = 1, val1 = (0.03 * 0.55), val2 = 0, val3 = 1, val4 = true }, [4] = { val0 = 1, val1 = (0.035 * 0.55), val2 = 0, val3 = 1, val4 = true }, [5] = { val0 = 1, val1 = (0.04 * 0.55), val2 = 0, val3 = 1, val4 = true }, [6] = { val0 = 1, val1 = (0.045 * 0.55), val2 = 0, val3 = 1, val4 = true }, [7] = { val0 = 1, val1 = (0.05 * 0.55), val2 = 0, val3 = 1, val4 = true } }
+function F_02536(arg1) BeginTextCommandDisplayHelp('STRING') AddTextComponentSubstringPlayerName(arg1) EndTextCommandDisplayHelp(0, false, true, -1) end
 function F_02539() DisableControlAction(0, 73, false) DisableControlAction(0, 24, true) DisableControlAction(0, 257, true) DisableControlAction(0, 25, true) DisableControlAction(0, 263, true) DisableControlAction(0, 32, true) DisableControlAction(0, 34, true) DisableControlAction(0, 31, true) DisableControlAction(0, 30, true) DisableControlAction(0, 45, true) DisableControlAction(0, 22, true) DisableControlAction(0, 44, true) DisableControlAction(0, 37, true) DisableControlAction(0, 23, true) DisableControlAction(0, 288, true) DisableControlAction(0, 289, true) DisableControlAction(0, 170, true) DisableControlAction(0, 167, true) DisableControlAction(0, 73, true) DisableControlAction(2, 199, true) DisableControlAction(0, 47, true) DisableControlAction(0, 264, true) DisableControlAction(0, 257, true) DisableControlAction(0, 140, true) DisableControlAction(0, 141, true) DisableControlAction(0, 142, true) DisableControlAction(0, 143, true) end
 function F_02540(arg1) if (Dat_1[arg1].val1 >= 0.51) and (Dat_1[arg1].val1 <= 0.62) then return true end return false end
 function F_02541(arg1, arg2, arg3) local number number = ((1.0 - Cos(F_02542((arg3 * 3.141593)))) * 0.5); return ((arg1 * (1 - number)) + (arg2 * number)); end
@@ -12,6 +13,7 @@ function F_02668(arg1)
         Dat_2[current].val0 = 0
         while true do
             F_02539()
+            F_02536("Press ~INPUT_FRONTEND_CANCEL~ to abort hack")
             if IsControlJustReleased(2, 237) then
                 if F_02540(current) then
                     PlaySoundFrontend(-1, "Pin_Good", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", true)
@@ -35,6 +37,9 @@ function F_02668(arg1)
                         Dat_2[current].val4 = true
                     end
                 end
+            elseif IsControlJustReleased(2, 202) then
+                Abort()
+                return
             end
             if stophack then
                 return
@@ -131,11 +136,14 @@ function F_02668(arg1)
             elseif Dat_2[7].val0 == 0 then
                 DrawSprite("hackingNG", "DHCompHi", 0.65, Dat_1[7].val1, 0.4, 0.4, 0, 255, 255, 255, 255, 0)
             end
+            if stophack == true then
+                return
+            end
             if Dat_2[1].val4 == false and Dat_2[2].val4 == false and Dat_2[3].val4 == false and Dat_2[4].val4 == false and Dat_2[5].val4 == false and Dat_2[6].val4 == false and Dat_2[7].val4 == false then
                 PlaySoundFrontend(-1, "HACKING_SUCCESS", "", true)
                 Citizen.Wait(2500)
                 stophack = true
-                TriggerEvent("datacrack")
+                TriggerEvent("datacrack", true)
                 return
             end
             Citizen.Wait(1)
@@ -143,6 +151,10 @@ function F_02668(arg1)
     end)
 end
 
+function Abort()
+    stophack = true
+    TriggerEvent("datacrack", false)
+end
 
 function Start(arg1)
     local loc1
