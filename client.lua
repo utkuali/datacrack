@@ -172,3 +172,15 @@ function Start(arg1)
     stophack = false
     F_02668(loc1)
 end
+
+AddEventHandler('datacrack:start', function(arg1, cb)
+    Start(arg1)
+    while stophack == false do 
+        Citizen.Wait(100)
+    end
+    if Dat_2[1].val4 == false and Dat_2[2].val4 == false and Dat_2[3].val4 == false and Dat_2[4].val4 == false and Dat_2[5].val4 == false and Dat_2[6].val4 == false and Dat_2[7].val4 == false then
+        cb(true)
+    else
+        cb(false)
+    end
+end)

@@ -38,3 +38,15 @@ AddEventHandler("datacrack", function(output) -- this event will be triggered wh
     end
 end)
 ```
+
+- Alternative way to trigger datacrack, where difficulty is a float or integer ranging from 2 to 5, see example below:
+
+```lua
+TriggerEvent("datacrack:start", 3, function(output)
+    if output == true then
+    -- some code
+    else
+    -- some code
+    end
+end)
+```
